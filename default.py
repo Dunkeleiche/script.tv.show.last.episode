@@ -11,7 +11,7 @@ addon = xbmcaddon.Addon('script.tv.show.last.episode')
 path = xbmc.translatePath(addon.getAddonInfo('path'))
 
 def jsonrpc(method, resultKey, params):
-  query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "' + method + '", "params": ' + params + ', "id": 1}')
+  query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "' + method + '", "params": ' + params + ', "id": "libTvShows"}')
   result = simplejson.loads(unicode(query, 'utf-8', errors='ignore'))
   if result.has_key('result') and result['result'] != None and result['result'].has_key(resultKey):
     return result['result'][resultKey]
@@ -20,7 +20,7 @@ def jsonrpc(method, resultKey, params):
 
 
 def get_tv_show_list():
-  tvshows = jsonrpc('VideoLibrary.GetTVShows', 'tvshows', '{ "properties": ["title", "thumbnail"] }, "id": "libTvShows"}')
+  tvshows = jsonrpc('VideoLibrary.GetTVShows', 'tvshows', '{ "properties": ["title", "thumbnail"] }')
   tvshowList = []
   for tvshow in tvshows:
     episodes = jsonrpc(
